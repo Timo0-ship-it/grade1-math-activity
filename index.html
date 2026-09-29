@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Math Fun! - Grade 1 E-Learning</title>
+  <style>
+    * { box-sizing: border-box; }
+    html { scroll-behavior: smooth; }
+    body {
+      margin: 0;
+      font-family: Arial, Helvetica, sans-serif;
+      background: #f4fbff;
+      color: #243447;
+    }
+
+    header {
+      background: linear-gradient(135deg, #55c2ff, #6edb9b);
+      color: white;
+      text-align: center;
+      padding: 42px 20px 55px;
+      border-radius: 0 0 35px 35px;
+    }
+
+    header .emoji { font-size: 55px; }
+    header h1 { margin: 8px 0; font-size: clamp(32px, 6vw, 52px); }
+    header p { font-size: 20px; margin: 8px auto 22px; max-width: 650px; }
+
+    nav {
+      position: sticky;
+      top: 0;
+      z-index: 10;
+      background: white;
+      box-shadow: 0 3px 12px rgba(0,0,0,.10);
+      padding: 12px;
+      text-align: center;
+    }
+
+    nav a {
+      display: inline-block;
+      color: #1776aa;
+      text-decoration: none;
+      font-weight: bold;
+      padding: 9px 13px;
+      border-radius: 20px;
+      margin: 3px;
+    }
+    nav a:hover { background: #e5f6ff; }
+
+    main { max-width: 1050px; margin: auto; padding: 25px 16px 50px; }
+
+    section {
+      margin: 25px 0;
+      scroll-margin-top: 80px;
+    }
+
+    .welcome, .lesson, .quiz-box, .game, .footer-card {
+      background: white;
+      border-radius: 24px;
+      padding: 25px;
+      box-shadow: 0 8px 25px rgba(40, 100, 130, .10);
+    }
+
+    h2 {
+      color: #1976a8;
+      font-size: 30px;
+      margin-top: 0;
+    }
+
+    .cards {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 18px;
+    }
+
+    .card {
+      border-radius: 20px;
+      padding: 22px;
+      text-align: center;
+      background: #f0fbff;
+      border: 2px solid #d8f2ff;
+      transition: transform .2s;
+    }
+    .card:hover { transform: translateY(-4px); }
+    .card .icon { font-size: 45px; }
+    .card h3 { color: #166b91; }
+
+    .learn-btn, button {
+      border: 0;
+      border-radius: 14px;
+      padding: 12px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      cursor: pointer;
+      background: #ffca3a;
+      color: #493900;
+      margin-top: 8px;
+    }
+    .learn-btn:hover, button:hover { filter: brightness(.96); transform: scale(1.02); }
+
+    .lesson {
+      display: none;
+      border-left: 7px solid #55c2ff;
+    }
+    .lesson.active { display: block; }
+
+    .number-line {
+      background: #eefaff;
+      padding: 18px;
+      border-radius: 15px;
+      font-size: 25px;
+      text-align: center;
+      line-height: 1.8;
+      margin: 15px 0;
+    }
+
+    .example {
+      background: #fff7d6;
+      padding: 16px;
+      border-radius: 15px;
+      margin: 14px 0;
+      font-size: 19px;
+    }
+
+    .question {
+      background: #f7f7ff;
+      padding: 18px;
+      border-radius: 17px;
+      margin: 15px 0;
+      border: 2px solid #ececff;
+    }
+
+    .question label {
+      display: block;
+      padding: 8px;
+      margin: 5px 0;
+      cursor: pointer;
+      border-radius: 10px;
+    }
+    .question label:hover { background: #eef8ff; }
+
+    #result {
+      font-size: 22px;
+      font-weight: bold;
+      margin-top: 18px;
+      padding: 15px;
+      border-radius: 15px;
+      display: none;
+    }
+
+    .game-area {
+      text-align: center;
+      background: #f0fff5;
+      border-radius: 20px;
+      padding: 25px;
+    }
+
+    #gameNumber { font-size: 65px; font-weight: bold; color: #34a86b; }
+    #gameMessage { min-height: 28px; font-weight: bold; }
+
+    .answer-buttons button {
+      margin: 6px;
+      background: #72d7a0;
+      color: white;
+    }
+
+    .progress {
+      height: 16px;
+      background: #e5e5e5;
+      border-radius: 20px;
+      overflow: hidden;
+      margin: 15px 0;
+    }
+    #progressBar {
+      width: 0%;
+      height: 100%;
+      background: #55c2ff;
+      transition: width .4s;
+    }
+
+    footer {
+      text-align: center;
+      padding: 30px 15px;
+      background: #183b56;
+      color: white;
+      margin-top: 20px;
+    }
+
+    .small { color: #607d8b; }
+    @media (max-width: 600px) {
+      header { padding-top: 28px; }
+      nav a { font-size: 14px; }
+      .welcome, .lesson, .quiz-box, .game, .footer-card { padding: 19px; }
+    }
+  </style>
+</head>
+
+<body>
+
+<header>
+  <div class="emoji">🔢 ⭐ 🧮</div>
+  <h1>Math Fun!</h1>
+  <p>A simple and fun Mathematics learning website for Grade 1 students.</p>
+  <a href="#lessons"><button>Start Learning 🚀</button></a>
+</header>
+
+<nav>
+  <a href="#home">🏠 Home</a>
+  <a href="#lessons">📚 Lessons</a>
+  <a href="#quiz">📝 Quiz</a>
+  <a href="#game">🎮 Game</a>
+</nav>
+
+<main>
+
+  <section id="home">
+    <div class="welcome">
+      <h2>👋 Hello, Young Mathematician!</h2>
+      <p>Welcome to <strong>Math Fun!</strong> Here you can learn basic Grade 1 Mathematics through short lessons, examples, and an interactive quiz.</p>
+      <p>Remember: <strong>Math is fun when we practice! 🌟</strong></p>
+    </div>
+  </section>
+
+  <section id="lessons">
+    <h2>📚 Choose a Lesson</h2>
+
+    <div class="cards">
+      <div class="card">
+        <div class="icon">🔢</div>
+        <h3>Counting Numbers</h3>
+        <p>Learn to count numbers from 1 to 20.</p>
+        <button onclick="showLesson('counting')">Learn More</button>
+      </div>
+
+      <div class="card">
+        <div class="icon">➕</div>
+        <h3>Addition</h3>
+        <p>Learn how to put numbers together.</p>
+        <button onclick="showLesson('addition')">Learn More</button>
+      </div>
+
+      <div class="card">
+        <div class="icon">➖</div>
+        <h3>Subtraction</h3>
+        <p>Learn how to take numbers away.</p>
+        <button onclick="showLesson('subtraction')">Learn More</button>
+      </div>
+
+      <div class="card">
+        <div class="icon">🔺</div>
+        <h3>Shapes</h3>
+        <p>Learn common shapes around us.</p>
+        <button onclick="showLesson('shapes')">Learn More</button>
+      </div>
+    </div>
+
+    <div id="counting" class="lesson">
+      <h2>🔢 Counting Numbers</h2>
+      <p>Counting means saying numbers in order.</p>
+      <div class="number-line">
+        1️⃣ → 2️⃣ → 3️⃣ → 4️⃣ → 5️⃣ → 6️⃣ → 7️⃣ → 8️⃣ → 9️⃣ → 🔟
+      </div>
+      <div class="example">
+        <strong>Example:</strong> If you have 🍎 🍎 🍎, you have <strong>3 apples</strong>.
+      </div>
+      <p>Try counting objects around you. How many pencils, books, or toys can you find?</p>
+    </div>
+
+    <div id="addition" class="lesson">
+      <h2>➕ Addition</h2>
+      <p>Addition means putting two or more numbers together.</p>
+      <div class="example">
+        <strong>Example:</strong> 🍎 🍎 + 🍎 = 3 apples<br>
+        <strong>2 + 1 = 3</strong>
+      </div>
+      <p>When we add, the number usually gets bigger.</p>
+      <div class="number-line">1 + 2 = 3 &nbsp;&nbsp; | &nbsp;&nbsp; 2 + 3 = 5 &nbsp;&nbsp; | &nbsp;&nbsp; 4 + 1 = 5</div>
+    </div>
+
+    <div id="subtraction" class="lesson">
+      <h2>➖ Subtraction</h2>
+      <p>Subtraction means taking something away from a group.</p>
+      <div class="example">
+        <strong>Example:</strong> 🍎 🍎 🍎 − 🍎 = 🍎 🍎<br>
+        <strong>3 − 1 = 2</strong>
+      </div>
+      <p>When we subtract, the number usually gets smaller.</p>
+      <div class="number-line">5 − 2 = 3 &nbsp;&nbsp; | &nbsp;&nbsp; 6 − 1 = 5 &nbsp;&nbsp; | &nbsp;&nbsp; 4 − 3 = 1</div>
+    </div>
+
+    <div id="shapes" class="lesson">
+      <h2>🔺 Shapes</h2>
+      <p>We see shapes everywhere! Here are four common shapes:</p>
+      <div class="cards">
+        <div class="card"><div class="icon">⚪</div><h3>Circle</h3><p>Round shape.</p></div>
+        <div class="card"><div class="icon">🟦</div><h3>Square</h3><p>Four equal sides.</p></div>
+        <div class="card"><div class="icon">🔺</div><h3>Triangle</h3><p>Three sides.</p></div>
+        <div class="card"><div class="icon">▭</div><h3>Rectangle</h3><p>Four sides with two long sides and two short sides.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <section id="quiz">
+    <div class="quiz-box">
+      <h2>📝 Math Quiz</h2>
+      <p>Answer each question, then click <strong>Next Question</strong>. Good luck! ⭐</p>
+
+      <div class="progress"><div id="progressBar"></div></div>
+      <p id="questionCounter" style="font-weight:bold; color:#1976a8;">Question 1 of 5</p>
+
+      <div id="quizQuestion" class="question"></div>
+
+      <button id="nextButton" onclick="nextQuestion()">Next Question ➡️</button>
+      <div id="result"></div>
+    </div>
+  </section>
+
+  <section id="game">
+    <div class="game">
+      <h2>🎮 Number Game</h2>
+      <p>Click the number that matches the big number!</p>
+
+      <div class="game-area">
+        <div id="gameNumber">5</div>
+        <div class="answer-buttons">
+          <button onclick="guessNumber(3)">3</button>
+          <button onclick="guessNumber(5)">5</button>
+          <button onclick="guessNumber(8)">8</button>
+        </div>
+        <p id="gameMessage">Choose an answer!</p>
+        <button onclick="newGame()">🔄 New Number</button>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <div class="footer-card">
+      <h2>🌟 Remember!</h2>
+      <p>Practice makes progress. Keep learning, keep counting, and keep having fun with Math!</p>
+      <p class="small">Created as a simple Grade 1 Mathematics e-learning activity.</p>
+    </div>
+  </section>
+
+</main>
+
+<footer>
+  <p>🔢 Math Fun! | Grade 1 Mathematics E-Learning</p>
+  <p>Made for learning • practicing • having fun ⭐</p>
+</footer>
+
+<script>
+  function showLesson(id) {
+    document.querySelectorAll('.lesson').forEach(function(lesson) {
+      lesson.classList.remove('active');
+    });
+
+    const selected = document.getElementById(id);
+    selected.classList.add('active');
+    selected.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  // ---------- Random question generator ----------
+  function rand(min, max) {
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+  }
+
+  function shuffle(arr) {
+    for (let i = arr.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1));
+      [arr[i], arr[j]] = [arr[j], arr[i]];
+    }
+    return arr;
+  }
+
+  // Returns 3 different number choices (as strings) that include the correct one
+  function numberChoices(correct, min, max) {
+    const set = new Set([correct]);
+    while (set.size < 3) {
+      const n = correct + rand(-3, 3);
+      if (n >= min && n <= max) set.add(n);
+    }
+    return shuffle(Array.from(set).map(String));
+  }
+
+  const questionMakers = [
+    function addition() {
+      const a = rand(1, 9);
+      const b = rand(1, 10 - a);
+      return { question: "What is " + a + " + " + b + "?", choices: numberChoices(a + b, 0, 20), answer: String(a + b) };
+    },
+    function subtraction() {
+      const a = rand(2, 10);
+      const b = rand(1, a - 1);
+      return { question: "What is " + a + " − " + b + "?", choices: numberChoices(a - b, 0, 20), answer: String(a - b) };
+    },
+    function after() {
+      const n = rand(1, 19);
+      return { question: "What number comes after " + n + "?", choices: numberChoices(n + 1, 0, 20), answer: String(n + 1) };
+    },
+    function before() {
+      const n = rand(2, 20);
+      return { question: "What number comes before " + n + "?", choices: numberChoices(n - 1, 0, 20), answer: String(n - 1) };
+    },
+    function counting() {
+      const emoji = ["🍎", "⭐", "🐶", "🎈", "🍌", "🚗"][rand(0, 5)];
+      const n = rand(1, 10);
+      return {
+        question: "How many " + emoji + " are there?<br><span style='font-size:28px;'>" + emoji.repeat(n) + "</span>",
+        choices: numberChoices(n, 0, 20),
+        answer: String(n)
+      };
+    },
+    function shape() {
+      const options = [
+        { q: "Which shape is round?", a: "Circle" },
+        { q: "Which shape has 3 sides?", a: "Triangle" },
+        { q: "Which shape has 4 equal sides?", a: "Square" }
+      ];
+      const pick = options[rand(0, options.length - 1)];
+      return { question: pick.q, choices: shuffle(["Circle", "Triangle", "Square"]), answer: pick.a };
+    }
+  ];
+
+  function generateQuestions(count) {
+    const list = [];
+    const seen = new Set();
+    let tries = 0;
+    while (list.length < count && tries < 200) {
+      tries++;
+      const q = questionMakers[rand(0, questionMakers.length - 1)]();
+      if (!seen.has(q.question)) {
+        seen.add(q.question);
+        list.push(q);
+      }
+    }
+    return list;
+  }
+  // -----------------------------------------------
+
+  // The first round uses these 5 fixed questions.
+  // Every round after that uses newly generated random questions.
+  let quizQuestions = [
+    {
+      question: "What is 2 + 3?",
+      choices: ["4", "5", "6"],
+      answer: "5"
+    },
+    {
+      question: "What is 5 − 2?",
+      choices: ["2", "3", "4"],
+      answer: "3"
+    },
+    {
+      question: "Which shape has 3 sides?",
+      choices: ["Circle", "Triangle", "Square"],
+      answer: "Triangle"
+    },
+    {
+      question: "What number comes after 7?",
+      choices: ["6", "8", "9"],
+      answer: "8"
+    },
+    {
+      question: "What is 1 + 4?",
+      choices: ["4", "5", "6"],
+      answer: "5"
+    }
+  ];
+
+  let currentQuestion = 0;
+  let score = 0;
+
+  function loadQuestion() {
+    const q = quizQuestions[currentQuestion];
+    const questionBox = document.getElementById("quizQuestion");
+    const counter = document.getElementById("questionCounter");
+    const nextButton = document.getElementById("nextButton");
+    const result = document.getElementById("result");
+    const progress = document.getElementById("progressBar");
+
+    counter.textContent = "Question " + (currentQuestion + 1) + " of " + quizQuestions.length;
+    progress.style.width = (currentQuestion / quizQuestions.length * 100) + "%";
+    result.style.display = "none";
+
+    let choicesHTML = "";
+    q.choices.forEach(function(choice) {
+      choicesHTML +=
+        '<label><input type="radio" name="quizAnswer" value="' +
+        choice.replace(/"/g, '&quot;') +
+        '"> ' + choice + '</label>';
+    });
+
+    questionBox.innerHTML =
+      "<p><strong>" + (currentQuestion + 1) + ". " + q.question + "</strong></p>" +
+      choicesHTML;
+
+    nextButton.textContent =
+      currentQuestion === quizQuestions.length - 1
+        ? "Finish Quiz 🏆"
+        : "Next Question ➡️";
+  }
+
+  function nextQuestion() {
+    const selected = document.querySelector('input[name="quizAnswer"]:checked');
+
+    if (!selected) {
+      const result = document.getElementById("result");
+      result.innerHTML = "😊 Please choose an answer first!";
+      result.style.display = "block";
+      result.style.background = "#fff3cd";
+      result.style.color = "#7a5b00";
+      return;
+    }
+
+    if (selected.value === quizQuestions[currentQuestion].answer) {
+      score++;
+    }
+
+    currentQuestion++;
+
+    if (currentQuestion < quizQuestions.length) {
+      loadQuestion();
+      document.getElementById("quizQuestion").scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
+    } else {
+      showFinalScore();
+    }
+  }
+
+  function showFinalScore() {
+    const questionBox = document.getElementById("quizQuestion");
+    const counter = document.getElementById("questionCounter");
+    const nextButton = document.getElementById("nextButton");
+    const progress = document.getElementById("progressBar");
+    const result = document.getElementById("result");
+
+    progress.style.width = "100%";
+    counter.textContent = "Quiz Complete! 🎉";
+
+    questionBox.innerHTML =
+      '<div style="text-align:center; padding:15px;">' +
+      '<div style="font-size:60px;">🏆</div>' +
+      '<h3 style="font-size:28px; color:#1976a8;">Your Score: ' +
+      score + '/' + quizQuestions.length + '</h3>' +
+      '</div>';
+
+    if (score === quizQuestions.length) {
+      result.innerHTML = "🌟 Amazing! You are a Math Star!";
+    } else if (score >= 3) {
+      result.innerHTML = "👏 Great job! Keep practicing your Math!";
+    } else {
+      result.innerHTML = "💪 Good try! Review the lessons and try again!";
+    }
+
+    result.style.display = "block";
+    result.style.background = "#e8fff1";
+    result.style.color = "#21734a";
+
+    nextButton.textContent = "🎲 New Random Questions";
+    nextButton.onclick = restartQuiz;
+  }
+
+  function restartQuiz() {
+    quizQuestions = generateQuestions(5);
+    currentQuestion = 0;
+    score = 0;
+    const nextButton = document.getElementById("nextButton");
+    nextButton.onclick = nextQuestion;
+    loadQuestion();
+  }
+
+  loadQuestion();
+
+  let currentNumber = 5;
+
+  function newGame() {
+    const numbers = [1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+    currentNumber = numbers[Math.floor(Math.random() * numbers.length)];
+    document.getElementById("gameNumber").textContent = currentNumber;
+    document.getElementById("gameMessage").textContent = "Choose an answer!";
+  }
+
+  function guessNumber(number) {
+    const message = document.getElementById("gameMessage");
+
+    if (number === currentNumber) {
+      message.textContent = "🎉 Correct! Great job!";
+      message.style.color = "#24945b";
+      setTimeout(newGame, 900);
+    } else {
+      message.textContent = "😊 Try again!";
+      message.style.color = "#d68100";
+    }
+  }
+</script>
+
+</body>
+</html>
